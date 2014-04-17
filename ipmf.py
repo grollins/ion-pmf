@@ -35,11 +35,25 @@ class IonPmfApiV1(Service):
             db = MySQLdb.connect(host='localhost', user='root', db='iPMF')
 
         cursor = db.cursor()
-        cursor.execute(QUERY % (int(request.charge1), int(request.charge2),
-                                float(request.sigma1), float(request.sigma2)))
+        charge1 = request.charge1
+        charge2 = request.charge2
+        sigma1 = request.sigma1
+        sigma2 = request.sigma2
+        if charge1 < charge2:
+            # 1,-1 is valid, but -1,1 is not.
+            # swap the values if necessary
+            charge1, charge2 = charge2, charge1
+        elif charge1 == charge2 and sigma1 > sigma2:
+            # we only store the upper right half
+            # of the sigma matrices since they are
+            # symmetric for +1,+1 and -1,-1 charge pairs
+            sigma1, sigma2 = sigma2, sigma1
+
+        cursor.execute(QUERY % (int(charge1), int(charge2),
+                                float(sigma1), float(sigma2)))
         query_results = cursor.fetchall()
-        distance = [row[0] for row in query_results]
-        potential = [row[1] for row in query_results]
+        distance = [float(row[0]) for row in query_results]
+        potential = [float(row[1]) for row in query_results]
         return IonPmfResponse(distance=distance, potential=potential)
 
 application = endpoints.api_server([IonPmfApiV1])
