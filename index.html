@@ -1,19 +1,52 @@
 <!doctype html>
 <html ng-app="ionPmf">
   <head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/radian.css"/>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700"/>
+    <link href="/css/ipmf.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.min.js"></script>
-    <script src="/js/todo.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700"/>
-    <link href="/css/todo.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js"></script>
+    <script src="/js/radian.js"></script>
+    <script src="/js/escodegen.browser.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.min.js"></script>
+    <script src="/js/ipmf.js"></script>
   </head>
   <body>
-    <div>
-      <h2>Endpoints Todos</h2>
-      <div ng-controller="IonPmfCtrl">
-        <p>Hello, world</p>
-      </div>
+    <div class="container" ng-controller="IonPmfCtrl">
+      <h2>i-PMF Web Calculator</h2>
+      <p>Yello, world</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <label>Charge1</label>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="1">+1</button>
+            <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="-1">-1</button>
+          </div>
+          <br>
+          <label>Charge2</label>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="1">+1</button>
+            <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="-1">-1</button>
+          </div>
+          <br>
+          <label>Radius1 ({{sigma1 | number:2}})</label>
+          <input type="range" min=2.0 max=5.5 step=0.01
+                  ng-model="sigma1" ng-init="sigma1=2.0">
+          <br>
+          <label>Radius2 ({{sigma2 | number:2}})</label>
+          <input type="range" min=2.0 max=5.5 step=0.01
+                  ng-model="sigma2" ng-init="sigma2=2.0">
+          <button class="btn btn-primary" type="button" ng-click="getPmf()">Compute PMF</button>
+        </div> <!-- end col 1 -->
+        <div class="col-sm-6">
+          <plot width=500 aspect=2 stroke-width=4 font-size=16 stroke="gray" axis-x-label="Distance (Å)" axis-y-label="Energy (kcal/mol)">
+            <lines x="[[distance]]" y="[[potential]]"></lines>
+          </plot>
+        </div> <!-- end col 2-->
+      </div><!-- end row -->
     </div>
   </body>
 </html>
