@@ -39,5 +39,24 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'radian'])
           $scope.potential = response.potential;
       });
     };
-    // $scope.getPmf();
+    
+    $scope.exportCSV = function() {
+      var csvContent = 'charge1,charge2,sigma1,sigma2\n';
+      csvContent += $scope.charge1 + ',';
+      csvContent += $scope.charge2 + ',';
+      csvContent += $scope.sigma1 + ',';
+      csvContent += $scope.sigma2 + '\n\n';
+      csvContent += 'distance,energy\n';
+      for (var i = 0; i < $scope.distance.length; i++) {
+          var r = $scope.distance[i];
+          var E = $scope.potential[i];
+          csvContent += r + ',';
+          csvContent += E + '\n';
+      }
+
+      var tempLink = document.createElement('a');
+      tempLink.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+      tempLink.setAttribute('download','pmf.csv');
+      tempLink.click();
+    };
   });
