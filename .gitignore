@@ -52,3 +52,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Radian plotting library
+radian-0.1.3

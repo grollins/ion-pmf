@@ -24,3 +24,34 @@ ul {
 .glyphicon {
     margin-right: 5px;
 }
+
+h1 {
+    margin-bottom: 40px;
+}
+
+.center-block {
+    width: 300px;
+}
+
+input[type=range] {
+    width: 75%;
+}
+
+#param-block {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.ion-params {
+    margin-bottom: 35px;
+    /*border: solid 1px #888;*/
+}
+
+.ion-params h3, div {
+    margin-bottom: 10px;
+}
+
+#compute-button {
+    display: block;
+    margin-bottom: 5px;
+}

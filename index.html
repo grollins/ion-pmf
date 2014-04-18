@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="ionPmf">
   <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/radian.css"/>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700"/>
     <link href="/css/ipmf.css" rel="stylesheet">
@@ -16,37 +16,45 @@
   </head>
   <body>
     <div class="container" ng-controller="IonPmfCtrl">
-      <h2>i-PMF Web Calculator</h2>
-      <p>Yello, world</p>
+      <h1 class="text-center">i-PMF Web Calculator<br>
+      <small>Potentials of mean force for ion-ion interactions</small></h1>
       <div class="row">
-        <div class="col-sm-4">
-          <label>Charge1</label>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="1">+1</button>
-            <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="-1">-1</button>
+        <div class="col-sm-2">
+          <div id="param-block">
+          <div class="ion-params">
+            <h3>Ion 1</h3>
+            <!-- <label>Charge</label> -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="1">+1</button>
+              <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="-1">-1</button>
+            </div>
+            <label>Radius ({{sigma1 | number:2}})</label>
+            <input type="range" min=2.0 max=5.5 step=0.01
+                    ng-model="sigma1" ng-init="sigma1=2.0">
           </div>
-          <br>
-          <label>Charge2</label>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="1">+1</button>
-            <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="-1">-1</button>
+          <div class="ion-params">
+            <h3>Ion 2</h3>
+            <!-- <label>Charge</label> -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="1">+1</button>
+              <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="-1">-1</button>
+            </div>
+            <label>Radius ({{sigma2 | number:2}})</label>
+            <input type="range" min=2.0 max=5.5 step=0.01
+                    ng-model="sigma2" ng-init="sigma2=2.0">
+          </div> <!-- end ion-params -->
+          </div> <!-- end param-block -->
+          <div>
+            <button id="compute-button" class="btn btn-primary" type="button" ng-click="getPmf()">Compute PMF</button>
+            <button class="btn btn-success" type="button">Export to CSV</button>
           </div>
-          <br>
-          <label>Radius1 ({{sigma1 | number:2}})</label>
-          <input type="range" min=2.0 max=5.5 step=0.01
-                  ng-model="sigma1" ng-init="sigma1=2.0">
-          <br>
-          <label>Radius2 ({{sigma2 | number:2}})</label>
-          <input type="range" min=2.0 max=5.5 step=0.01
-                  ng-model="sigma2" ng-init="sigma2=2.0">
-          <button class="btn btn-primary" type="button" ng-click="getPmf()">Compute PMF</button>
-        </div> <!-- end col 1 -->
-        <div class="col-sm-6">
-          <plot width=500 aspect=2 stroke-width=4 font-size=16 stroke="gray" axis-x-label="Distance (Å)" axis-y-label="Energy (kcal/mol)">
-            <lines x="[[distance]]" y="[[potential]]"></lines>
+        </div> <!-- end col -->
+        <div class="col-sm-10">
+          <plot aspect=2 range-x="2,13" font-size=18 axis-x-label="Distance (Å)" axis-y-label="Energy (kcal/mol)" axis-x-ticks="[[seq(2,13,12)]]" axis-y-ticks=10>
+            <lines x="[[distance]]" y="[[potential]]" stroke="gray" stroke-width=4></lines>
           </plot>
-        </div> <!-- end col 2-->
-      </div><!-- end row -->
-    </div>
+        </div> <!-- end col -->
+      </div>
+    </div> <!-- end container -->
   </body>
 </html>
