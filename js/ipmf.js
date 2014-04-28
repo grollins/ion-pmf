@@ -1,4 +1,4 @@
-angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'radian'])
+angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'highcharts-ng'])
   .factory('IonPmfDatabase', function($resource) {
     // Use the resource plugin to talk to an App Engine JSON backend.
     var IonPmfDatabase = $resource('/_ah/api/ionPmfApi/v1/pmf/1d', {},
@@ -31,12 +31,30 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'radian'])
                         -0.0307192669,-0.0267742385,-0.0111906406,-0.00278244375,
                         0.00015124601,0];
 
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'line',
+                zoomType: 'x'
+            }
+        },
+        series: [{
+            data: _.zip($scope.distance, $scope.potential)
+        }],
+        title: {
+            text: 'PMF'
+        },
+        xAxis: {currentMin: 1, currentMax: 13, minRange: 1},
+        loading: false
+    };
+
     $scope.getPmf = function() {
       params = {charge1: $scope.charge1, charge2: $scope.charge2,
                 sigma1: $scope.sigma1, sigma2: $scope.sigma2};
       IonPmfDatabase.get(params, function(response) {
           $scope.distance = response.distance;
           $scope.potential = response.potential;
+          $scope.chartConfig.series[0].data = _.zip($scope.distance, $scope.potential);
       });
     };
     
@@ -59,4 +77,17 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'radian'])
       tempLink.setAttribute('download','pmf.csv');
       tempLink.click();
     };
+
+    $scope.toggleLoading = function () {
+      this.chartConfig.loading = !this.chartConfig.loading;
+    };
+
+    $scope.changeData = function () {
+      var b = _.map($scope.potential, function(num) { 
+        return num + 0.5;
+      });
+      $scope.potential = b;
+      $scope.chartConfig.series[0].data = _.zip($scope.distance, $scope.potential);
+    };
+
   });
