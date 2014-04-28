@@ -32,20 +32,72 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'highcharts-ng'])
                         0.00015124601,0];
 
     $scope.chartConfig = {
-        options: {
-            chart: {
-                type: 'line',
-                zoomType: 'x'
-            }
+      options: {
+        chart: {
+          type: 'line',
+          zoomType: 'x'
         },
-        series: [{
-            data: _.zip($scope.distance, $scope.potential)
-        }],
+        legend: {
+          enabled: false
+        },
+        colors: ['#428bca','#777', '#7cb5ec', '#434348', '#90ed7d'],
+        tooltip: {
+          enabled: false
+        },
+      },
+      series: [{
+        data: _.zip($scope.distance, $scope.potential),
+        lineWidth: 5,
+        shadow: true,
+        name: "PMF",
+        enableMouseTracking: false
+      }],
+      title: {
+        text: ''
+      },
+      xAxis: {
+        currentMin: 1, currentMax: 13, minRange: 1,
         title: {
-            text: 'PMF'
+          text: 'Distance (angstroms)',
+          margin: 15,
+          style: {
+            "color": "#000",
+            "font-family": "Open Sans",
+            "font-size": "16px"
+          }
         },
-        xAxis: {currentMin: 1, currentMax: 13, minRange: 1},
-        loading: false
+        labels: {
+          style: {
+            color: '#000',
+            "font-family": "Open Sans",
+            "font-size": "14px"
+          },
+          x: 0,
+          y: 30
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Free Energy (kcal/mol)',
+          margin: 15,
+          style: {
+            "color": "#000",
+            "font-family": "Open Sans",
+            "font-size": "16px"
+          }
+        },
+        labels: {
+          style: {
+            color: '#000',
+            "font-family": "Open Sans",
+            "font-size": "14px"
+          },
+        }
+      },
+      size: {
+        height: 500
+      },
+      loading: false
     };
 
     $scope.getPmf = function() {
