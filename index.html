@@ -14,6 +14,21 @@
     <script src="/js/ipmf.js"></script>
   </head>
   <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="http://dillgroup.io">Dill Group Projects</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li><a href="http://sea.dillgroup.io">SEA-web</a></li>
+            <li><a href="http://flexe.dillgroup.io">FlexE-web</a></li>
+            <li class="active"><a href="https://ionpmf.appspot.com">i-PMF</a></li>
+          </ul>
+        </div>
+      </div><!-- /.container -->
+    </nav>
+
     <div class="container" ng-controller="IonPmfCtrl">
       <h1 class="text-center">i-PMF Web Calculator<br>
       <small>Potentials of mean force for ion-ion interactions</small></h1>
@@ -48,10 +63,16 @@
             <button class="btn btn-success" type="button" ng-click="exportCSV()">Export to CSV</button>
           </div>
         </div> <!-- end col -->
-        <div class="col-sm-8">
+        <div class="col-sm-10">
           <highchart id="chart1" config="chartConfig"></highchart>
         </div> <!-- end col -->
       </div> <!-- end row -->
+
+    <div class="footer">
+      <span>&copy; <a href="http://geoffrollins.com">Geoff Rollins</a>, 2014</span>
+      <span class="pull-right">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, <a href="http://angularjs.org/" target="_blank">AngularJS</a>, <a href="http://www.highcharts.com/" target="_blank">Highcharts</a>, and <a href="https://cloud.google.com/" target="_blank">Google Cloud Platform</a>.</span>
+    </div>
+
     </div> <!-- end container -->
   </body>
 </html>
