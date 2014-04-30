@@ -101,12 +101,14 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'highcharts-ng'])
     };
 
     $scope.getPmf = function() {
+      $scope.toggleLoading();
       params = {charge1: $scope.charge1, charge2: $scope.charge2,
                 sigma1: $scope.sigma1, sigma2: $scope.sigma2};
       IonPmfDatabase.get(params, function(response) {
           $scope.distance = response.distance;
           $scope.potential = response.potential;
           $scope.chartConfig.series[0].data = _.zip($scope.distance, $scope.potential);
+          $scope.toggleLoading();
       });
     };
     
