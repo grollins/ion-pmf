@@ -1,5 +1,5 @@
 body {
-    padding-top: 100px;
+    padding-top: 50px;
     font-family: 'Open Sans', sans-serif;
     background-color: #fff;
     font-size: 16px;
@@ -69,12 +69,22 @@ input[type=range] {
     margin-bottom: 5px;
 }
 
+#more-info {
+    background-color: #eee;
+}
+
+section {
+    margin: 0px;
+    padding: 30px 0px;
+}
+
 footer {
-    margin-top: 50px;
-    margin-bottom: 25px;
+    margin: 0px;
     padding-left: 0px;
     padding-right: 0px;
-    padding-top: 19px;
-    color: #777;
+    padding: 30px 0px;
+    color: #999;
     border-top: 1px solid #aaa;
+    background-color: #222;
+    min-height: 100px;
 }

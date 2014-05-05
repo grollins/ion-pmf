@@ -17,6 +17,10 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
+- url: /iPMFLogo\.png
+  static_files: iPMFLogo.png
+  upload: iPMFLogo\.png
+
 - url: /js
   static_dir: js
 
