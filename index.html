@@ -1,6 +1,11 @@
 <!doctype html>
 <html ng-app="ionPmf">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>i-PMF | Potentials of mean force for ion-ion interactions</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700"/>
     <link href="/css/ipmf.css" rel="stylesheet">
@@ -29,52 +34,67 @@
       </div><!-- /.container -->
     </nav>
 
-    <div class="container" ng-controller="IonPmfCtrl">
-      <h1 class="text-center">i-PMF Web Calculator<br>
-      <small>Potentials of mean force for ion-ion interactions</small></h1>
-      <div class="row">
-        <div class="col-sm-2">
-          <div id="param-block">
-          <div class="ion-params">
-            <h3>Ion 1</h3>
-            <!-- <label>Charge</label> -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="1">+1</button>
-              <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="-1">-1</button>
+    <section id="plot">
+      <div class="container" ng-controller="IonPmfCtrl">
+        <h1 class="text-center">i-PMF Web Calculator<br>
+        <small>Potentials of mean force for ion-ion interactions</small></h1>
+        <div class="row">
+          <div class="col-sm-2">
+            <div id="param-block">
+            <div class="ion-params">
+              <h3>Ion 1</h3>
+              <!-- <label>Charge</label> -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="1">+1</button>
+                <button type="button" class="btn btn-default" ng-model="charge1" btn-radio="-1">-1</button>
+              </div>
+              <label>Diameter ({{sigma1 | number:2}})</label>
+              <input type="range" min=2.0 max=5.5 step=0.01
+                      ng-model="sigma1" ng-init="sigma1=2.0">
             </div>
-            <label>Radius ({{sigma1 | number:2}})</label>
-            <input type="range" min=2.0 max=5.5 step=0.01
-                    ng-model="sigma1" ng-init="sigma1=2.0">
-          </div>
-          <div class="ion-params">
-            <h3>Ion 2</h3>
-            <!-- <label>Charge</label> -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="1">+1</button>
-              <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="-1">-1</button>
+            <div class="ion-params">
+              <h3>Ion 2</h3>
+              <!-- <label>Charge</label> -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="1">+1</button>
+                <button type="button" class="btn btn-default" ng-model="charge2" btn-radio="-1">-1</button>
+              </div>
+              <label>Diameter ({{sigma2 | number:2}})</label>
+              <input type="range" min=2.0 max=5.5 step=0.01
+                      ng-model="sigma2" ng-init="sigma2=2.0">
+            </div> <!-- end ion-params -->
+            </div> <!-- end param-block -->
+            <div>
+              <button id="compute-button" class="btn btn-primary" type="button" ng-click="getPmf()">Compute PMF</button>
+              <button class="btn btn-success" type="button" ng-click="exportCSV()">Export to CSV</button>
             </div>
-            <label>Radius ({{sigma2 | number:2}})</label>
-            <input type="range" min=2.0 max=5.5 step=0.01
-                    ng-model="sigma2" ng-init="sigma2=2.0">
-          </div> <!-- end ion-params -->
-          </div> <!-- end param-block -->
-          <div>
-            <button id="compute-button" class="btn btn-primary" type="button" ng-click="getPmf()">Compute PMF</button>
-            <button class="btn btn-success" type="button" ng-click="exportCSV()">Export to CSV</button>
-          </div>
-        </div> <!-- end col -->
-        <div class="col-sm-10">
-          <highchart id="chart1" config="chartConfig"></highchart>
-          <br>
-          <p><strong>Pro-tip:</strong> Click anywhere within the plot and drag your mouse in the x direction to zoom-in on a specific region.</p>
-        </div> <!-- end col -->
-      </div> <!-- end row -->
+          </div> <!-- end col -->
+          <div class="col-sm-10">
+            <highchart id="chart1" config="chartConfig"></highchart>
+            <br>
+            <p><strong>Pro-tip:</strong> Click anywhere within the plot and drag your mouse in the x direction to zoom-in on a specific region.</p>
+          </div> <!-- end col -->
+        </div> <!-- end row -->
+      </div> <!-- end container -->
+    </section>
 
-    <div class="footer">
-      <span>&copy; <a href="http://geoffrollins.com">Geoff Rollins</a>, 2014</span>
-      <span class="pull-right">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, <a href="http://angularjs.org/" target="_blank">AngularJS</a>, <a href="http://www.highcharts.com/" target="_blank">Highcharts</a>, and <a href="https://cloud.google.com/" target="_blank">Google Cloud Platform</a>.</span>
-    </div>
+    <hr>
 
-    </div> <!-- end container -->
+    <section id="explanation">
+      <div class="container">
+        <h2>More Information</h2>
+        <p>This web app is a companion to our recent J. Phys. Chem. B article:</p>
+        <h4><a href="http://dx.doi.org/10.1021/jp501141j" target="_blank">Using Interpolation for Fast and Accurate Calculation of Ion–Ion Interactions</a></h4>
+        <p>We performed extensive molecular dynamics (MD) simulations of pairs of ions of various sizes and charge interacting in explicit water (TIP3P) under ambient conditions. From these simulations, we computed potentials of mean force (PMFs) for the ion-ion interactions. It can take 100 hours to simulate each PMF by MD, but thanks to our interactive plot above, you can access the PMFs within seconds. </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <span>&copy; <a href="http://geoffrollins.com" target="_blank">Geoff Rollins</a>, 2014</span>
+        <span class="pull-right">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, <a href="http://angularjs.org/" target="_blank">AngularJS</a>, <a href="http://www.highcharts.com/" target="_blank">Highcharts</a>, and <a href="https://cloud.google.com/" target="_blank">Google Cloud Platform</a>.</span>
+      </div>
+    </footer>
+
   </body>
 </html>
