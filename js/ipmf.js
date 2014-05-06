@@ -116,7 +116,7 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'highcharts-ng'])
         },
         function(response) {
           // error
-          if ($scope.failed_attempts > 10) {
+          if ($scope.failed_attempts > 50) {
             console.error('Failed to contact server.')
             $scope.failed_attempts = 0;    
           }
