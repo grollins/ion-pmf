@@ -30,6 +30,7 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'highcharts-ng'])
                         -0.145652627,-0.127752748,-0.0822016157,-0.0386121564,-0.0240003806,
                         -0.0307192669,-0.0267742385,-0.0111906406,-0.00278244375,
                         0.00015124601,0];
+    $scope.failed_attempts = 0;
 
     $scope.chartConfig = {
       options: {
@@ -104,14 +105,28 @@ angular.module('ionPmf', ['ngResource', 'ui.bootstrap', 'highcharts-ng'])
       $scope.toggleLoading();
       params = {charge1: $scope.charge1, charge2: $scope.charge2,
                 sigma1: $scope.sigma1, sigma2: $scope.sigma2};
-      IonPmfDatabase.get(params, function(response) {
+      IonPmfDatabase.get(params,
+        function(response) {
+          // success
           $scope.distance = response.distance;
           $scope.potential = response.potential;
           $scope.chartConfig.series[0].data = _.zip($scope.distance, $scope.potential);
           $scope.toggleLoading();
+          $scope.failed_attempts = 0;
+        },
+        function(response) {
+          // error
+          if ($scope.failed_attempts > 10) {
+            console.error('Failed to contact server.')
+            $scope.failed_attempts = 0;    
+          }
+          else {
+            $scope.failed_attempts++;
+            $scope.getPmf();
+          };
       });
     };
-    
+
     $scope.exportCSV = function() {
       var csvContent = 'charge1,charge2,sigma1,sigma2\n';
       csvContent += $scope.charge1 + ',';
