@@ -21,6 +21,10 @@ handlers:
   static_files: iPMFLogo.png
   upload: iPMFLogo\.png
 
+- url: /contact\.png
+  static_files: contact.png
+  upload: contact\.png
+
 - url: /js
   static_dir: js
 
