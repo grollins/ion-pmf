@@ -29,7 +29,7 @@ class IonPmfApiV1(Service):
     def get1d(self, request):
         if (getenv('SERVER_SOFTWARE') and
             getenv('SERVER_SOFTWARE').startswith('Google App Engine/')):
-            db = MySQLdb.connect(unix_socket='/cloudsql/senpai-io:ion-pmf',
+            db = MySQLdb.connect(unix_socket='/cloudsql/ionpmf:ion-pmf',
                                  user='root', db='iPMF')
         else:
             db = MySQLdb.connect(host='localhost', user='root', db='iPMF')
